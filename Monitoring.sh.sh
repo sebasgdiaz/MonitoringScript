@@ -3,7 +3,7 @@
 set -e #Stop the script if it fails
 #set -x #Enable debug mode
 
-echo "Iniciando Script"
+#echo "Iniciando Script"
 
 # Main variables
 DATE_HOUR=$(date +%Y_%m_%d_%H-%M); 
@@ -26,7 +26,7 @@ FILE_LOG_HOME="/home/initial-${DATE_DAY}.txt"
 if [[ ! -f "$FILE_LOG_HOME" ]]; then 
     touch "$FILE_LOG_HOME" && chmod -R 755 "$FILE_LOG_HOME" 2>&1
 else
-    echo "$DATE_HOUR INFO: $FILE_LOG_HOME already exists" 2>&1
+    echo "$DATE_HOUR INFO: $FILE_LOG_HOME already exists" >> "$FILE_LOG_HOME"
 fi
 
 # Writing the alert file to be sent by email
