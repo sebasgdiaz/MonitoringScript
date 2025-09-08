@@ -3,7 +3,7 @@
 set -e #Stop the script if it fails
 set -x #Enable debug mode
 
-echo "Iniciando Script"
+#echo "Iniciando Script"
 
 # Main variables
 DATE_HOUR=$(date +%Y_%m_%d_%H-%M); 
