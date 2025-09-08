@@ -1,7 +1,7 @@
 #!/bin/bash
 
 set -e #Stop the script if it fails
-set -x #Enable debug mode
+#set -x #Enable debug mode
 
 echo "Iniciando Script"
 
