@@ -225,11 +225,11 @@ send_mail(){
 
     echo "Enviando WhatsApp alerta $1"
 
-    error=$(curl -s -X POST "https://api.twilio.com/2010-04-01/Accounts/$ACCOUNT_SID/Messages.json" \ 
-    --data-urlencode "To=$WHATSAPP_TO" \
-    --data-urlencode "From=$WHATSAPP_FROM" \
-    --data-urlencode "Body=$MESSAGE" \
-    -u $ACCOUNT_SID:$AUTH_TOKEN)
+    error=$(curl -s -X POST "https://api.twilio.com/2010-04-01/Accounts/$ACCOUNT_SID/Messages.json"\ 
+    --data-urlencode "To=$WHATSAPP_TO"\
+    --data-urlencode "From=$WHATSAPP_FROM"\
+    --data-urlencode "Body=$MESSAGE"\
+    -u "$ACCOUNT_SID:$AUTH_TOKEN")
 
 	if [ $? -eq 0  ]; then
 		echo "INFO: The message was sent successfully" >> $LOG_FILE_SHELL
