@@ -12,7 +12,7 @@ DATE_DAY=$(date +%Y_%m_%d);
 HOSTNAME=$(hostname);
 VM_IP=$(hostname -I);
 end=$((SECONDS+3600));
-ALERT_INTERVAL=300
+ALERT_INTERVAL=50
 
 #Variables for directory paths
 MONITOR_PATH="/data/shells/monitor_alerts"
@@ -232,7 +232,7 @@ send_mail(){
     -u "$ACCOUNT_SID:$AUTH_TOKEN")
 
 	if [ $? -eq 0  ]; then
-		echo "INFO: The message was sent successfully" >> $LOG_FILE_SHELL
+		echo "INFO: The Whatsapp message was sent successfully" >> $LOG_FILE_SHELL
 	else
    		echo "ERROR: Failed to send message: $error" >> $LOG_FILE_SHELL
 	fi
