@@ -184,7 +184,7 @@ else
             if [[ $DIFF_TIME -ge $ALERT_INTERVAL ]]; then 
                 echo "$ALERT_TIME" > "$ALERT_FILE"
                 echo "$DATE_HOUR INFO: Alert sent (diff $DIFF_TIME sec)" >> "$LOG_FILE_SHELL"
-                send_mail "$2"
+                send_mail "$2" "$3" "$4"
         
             else 
                 echo "$DATE_HOUR WARN: Alert not sent (only $DIFF_TIME sec since last)" >> "$LOG_FILE_SHELL"
@@ -227,7 +227,7 @@ send_mail(){
     local error_whatsapp=$(curl -s -X POST "https://api.twilio.com/2010-04-01/Accounts/$ACCOUNT_SID/Messages.json" \
     --data-urlencode "To=$WHATSAPP_TO" \
     --data-urlencode "From=$WHATSAPP_FROM" \
-    --data-urlencode "Body=$MESSAGE" \
+    --data-urlencode "Body=\U000026A0 CPU Overload on $2 $3%" \
     -u "$ACCOUNT_SID:$AUTH_TOKEN")
 
 	if [ $? -eq 0  ]; then
@@ -284,5 +284,5 @@ echo "|" >> $LOG_FILE
 	elif [ $CPU -ge 70 ] ;then
 		write_file $DATE_FILE "CPU"  $CPU
 		echo "ALERTA" "$DATE_COM";
-		check_send_alert "$DATE_COM" "$DATE_FILE"
+		check_send_alert "$DATE_COM" "$DATE_FILE" "CPU" $CPU
 	fi
