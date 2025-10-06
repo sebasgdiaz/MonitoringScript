@@ -34,7 +34,7 @@ WHATSAPP_TO="whatsapp:+61415751673"
 WHATSAPP_FROM="whatsapp:+14155238886"
 ACCOUNT_SID=$TWILIO_ACCOUNT_SID
 AUTH_TOKEN=$TWILIO_AUTH_TOKEN
-MESSAGE="Testing Whatsapp"
+MESSAGE="Server triggered an alert"
 
 if [[ ! -f "$FILE_LOG_HOME" ]]; then 
     touch "$FILE_LOG_HOME" && chmod -R 755 "$FILE_LOG_HOME" 2>&1
@@ -199,14 +199,12 @@ fi
 
 send_mail(){
 
- local error
-
  ###########################Email###############################
 
 	# The template is attached and the email is sent
 	echo "Enviando correo " $MONITOR_PATH/Alerta-$1.txt;
 
-		error=$(timeout 40s curl --url 'smtps://smtp.gmail.com:465' \
+	local error_email=$(timeout 40s curl --url 'smtps://smtp.gmail.com:465' \
 	--ssl-reqd --mail-from "$EMAIL_FROM" \
        	--mail-rcpt "$EMAIL_TO" \
        	--upload-file $MONITOR_PATH/Alerta-$1.txt \
@@ -219,24 +217,26 @@ send_mail(){
 	if [ $? -eq 0  ]; then
 		echo "INFO: The email was sent successfully" >> $LOG_FILE_SHELL
 	else
-   		echo "ERROR: Failed to send mail: $error" >> $LOG_FILE_SHELL
+   		echo "ERROR: Failed to send mail: $error_email" >> $LOG_FILE_SHELL
 	fi
 
 ###########################Whatsapp###############################
 
     echo "Enviando WhatsApp alerta $1"
 
-    error=$(curl -s -X POST "https://api.twilio.com/2010-04-01/Accounts/$ACCOUNT_SID/Messages.json"\
-    --data-urlencode "To=$WHATSAPP_TO"\
-    --data-urlencode "From=$WHATSAPP_FROM"\
-    --data-urlencode "Body=$MESSAGE"\
+    local error_whatsapp=$(curl -s -X POST "https://api.twilio.com/2010-04-01/Accounts/$ACCOUNT_SID/Messages.json" \
+    --data-urlencode "To=$WHATSAPP_TO" \
+    --data-urlencode "From=$WHATSAPP_FROM" \
+    --data-urlencode "Body=$MESSAGE" \
     -u "$ACCOUNT_SID:$AUTH_TOKEN")
 
 	if [ $? -eq 0  ]; then
 		echo "INFO: The Whatsapp message was sent successfully" >> $LOG_FILE_SHELL
 	else
-   		echo "ERROR: Failed to send message: $error" >> $LOG_FILE_SHELL
+   		echo "ERROR: Failed to send message: $error_whatsapp" >> $LOG_FILE_SHELL
 	fi
+
+    echo "INFO: Result of sending Whatsapp: $error_whatsapp" >> $LOG_FILE_SHELL
 
 }
 
