@@ -227,7 +227,7 @@ send_mail(){
     local error_whatsapp=$(curl -s -X POST "https://api.twilio.com/2010-04-01/Accounts/$ACCOUNT_SID/Messages.json" \
     --data-urlencode "To=$WHATSAPP_TO" \
     --data-urlencode "From=$WHATSAPP_FROM" \
-    --data-urlencode "Body=\U000026A0 CPU Overload on $2 $3%" \
+    --data-urlencode "Body=⚠️ Overload on $2 $3%" \
     -u "$ACCOUNT_SID:$AUTH_TOKEN")
 
 	if [ $? -eq 0  ]; then
